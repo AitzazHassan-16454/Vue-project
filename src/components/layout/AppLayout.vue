@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import Sidebar from './Sidebar.vue'
 import Navbar from './Navbar.vue'
+import AiInsightsModal from '@/components/analytics/AiInsightsModal.vue'
 
 const isMobileOpen = ref(false)
 const isAiDrawerOpen = ref(false)
@@ -20,12 +21,12 @@ function toggleAiDrawer() {
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-950 text-slate-100 flex">
+  <div class="min-h-screen bg-slate-50 text-slate-900 flex relative overflow-x-hidden selection:bg-indigo-600 selection:text-white">
     <!-- Backdrop for mobile drawer -->
     <div
       v-if="isMobileOpen"
       @click="closeMobile"
-      class="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm md:hidden transition-opacity"
+      class="fixed inset-0 z-30 bg-slate-900/40 backdrop-blur-xs md:hidden transition-opacity"
     ></div>
 
     <!-- Desktop & Mobile Sidebar -->
@@ -44,7 +45,7 @@ function toggleAiDrawer() {
       />
 
       <!-- Page View Router Outlet -->
-      <main class="flex-1 p-4 md:p-8 max-w-7xl w-full mx-auto">
+      <main class="flex-1 p-4 md:p-8 max-w-7xl w-full mx-auto relative z-10">
         <router-view v-slot="{ Component }">
           <transition name="fade" mode="out-in">
             <component :is="Component" />
@@ -52,6 +53,12 @@ function toggleAiDrawer() {
         </router-view>
       </main>
     </div>
+
+    <!-- AI Copilot Modal/Drawer -->
+    <AiInsightsModal
+      :is-open="isAiDrawerOpen"
+      @close="isAiDrawerOpen = false"
+    />
   </div>
 </template>
 
