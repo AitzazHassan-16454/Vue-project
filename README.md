@@ -49,7 +49,10 @@ npm install
 # Start development server
 npm run dev
 
-# Build for production
+# Run unit tests
+npm run test
+
+# Build for production (TypeScript check + Vite bundle)
 npm run build
 ```
 

@@ -32,6 +32,14 @@ const router = createRouter({
       redirect: '/',
     },
   ],
+  scrollBehavior() {
+    return { top: 0, behavior: 'smooth' }
+  },
+})
+
+router.afterEach((to) => {
+  const title = (to.meta.title as string) || 'Executive Dashboard'
+  document.title = `${title} | Nexus Analytics`
 })
 
 export default router

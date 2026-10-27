@@ -30,20 +30,20 @@ const variantConfig = computed(() => {
     case 'danger':
       return {
         icon: AlertTriangle,
-        iconBg: 'bg-rose-50 text-rose-600 border-rose-200',
+        iconBg: 'bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/60',
         confirmBtn: 'bg-rose-600 hover:bg-rose-700 text-white shadow-sm shadow-rose-600/30',
       }
     case 'warning':
       return {
         icon: AlertCircle,
-        iconBg: 'bg-amber-50 text-amber-600 border-amber-200',
+        iconBg: 'bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border-amber-200 dark:border-amber-800/60',
         confirmBtn: 'bg-amber-600 hover:bg-amber-700 text-white shadow-sm shadow-amber-600/30',
       }
     case 'info':
     default:
       return {
         icon: Info,
-        iconBg: 'bg-indigo-50 text-indigo-600 border-indigo-200',
+        iconBg: 'bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800/60',
         confirmBtn: 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm shadow-indigo-600/30',
       }
   }
@@ -74,13 +74,13 @@ onUnmounted(() => {
     >
       <!-- Backdrop -->
       <div
-        class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs transition-opacity"
+        class="fixed inset-0 bg-slate-900/50 dark:bg-slate-950/80 backdrop-blur-xs transition-opacity"
         @click="emit('close')"
       ></div>
 
       <!-- Modal Card with Prominent Dark Depth Shadow -->
       <div
-        class="depth-modal bg-white rounded-2xl w-full max-w-md p-6 relative z-10 transform transition-all animate-in fade-in zoom-in-95 duration-150"
+        class="depth-modal bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-md p-6 relative z-10 transform transition-all animate-in fade-in zoom-in-95 duration-150"
       >
         <!-- Top: Icon + Close button -->
         <div class="flex items-start justify-between">
@@ -96,7 +96,7 @@ onUnmounted(() => {
           <button
             type="button"
             @click="emit('close')"
-            class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+            class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             aria-label="Close dialog"
           >
             <X class="w-4 h-4" />
@@ -105,21 +105,21 @@ onUnmounted(() => {
 
         <!-- Content -->
         <div class="mt-4">
-          <h3 class="text-base font-extrabold text-slate-900 tracking-tight">
+          <h3 class="text-base font-extrabold text-slate-900 dark:text-white tracking-tight">
             {{ title }}
           </h3>
-          <p class="text-xs text-slate-500 font-medium mt-1.5 leading-relaxed">
+          <p class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-1.5 leading-relaxed">
             {{ message }}
           </p>
         </div>
 
         <!-- Action Buttons -->
-        <div class="mt-6 flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+        <div class="mt-6 flex items-center justify-end gap-3 pt-4 border-t border-slate-100 dark:border-slate-800">
           <button
             type="button"
             @click="emit('close')"
             :disabled="isLoading"
-            class="px-4 py-2 text-xs font-bold rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition-colors disabled:opacity-50"
+            class="px-4 py-2 text-xs font-bold rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 transition-colors disabled:opacity-50"
           >
             {{ cancelText }}
           </button>

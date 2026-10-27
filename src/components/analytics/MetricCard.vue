@@ -14,19 +14,19 @@ const props = defineProps<{
 
 const accentGradients = {
   blue: {
-    iconBg: 'bg-blue-50 text-blue-600 border-blue-200/60',
+    iconBg: 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border-blue-200/60 dark:border-blue-800/60',
     stroke: '#2563eb',
   },
   emerald: {
-    iconBg: 'bg-emerald-50 text-emerald-600 border-emerald-200/60',
+    iconBg: 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border-emerald-200/60 dark:border-emerald-800/60',
     stroke: '#059669',
   },
   violet: {
-    iconBg: 'bg-indigo-50 text-indigo-600 border-indigo-200/60',
+    iconBg: 'bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 border-indigo-200/60 dark:border-indigo-800/60',
     stroke: '#4f46e5',
   },
   amber: {
-    iconBg: 'bg-amber-50 text-amber-600 border-amber-200/60',
+    iconBg: 'bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border-amber-200/60 dark:border-amber-800/60',
     stroke: '#d97706',
   },
 }
@@ -52,13 +52,11 @@ const sparklinePoints = computed(() => {
 </script>
 
 <template>
-  <div
-    class="depth-card depth-card-hover rounded-2xl p-6 flex flex-col justify-between"
-  >
+  <div class="depth-card depth-card-hover rounded-2xl p-6 flex flex-col justify-between">
     <div>
       <!-- Top Row: Title + Icon -->
       <div class="flex items-center justify-between mb-3">
-        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">{{ title }}</span>
+        <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{{ title }}</span>
         <div :class="['w-9 h-9 rounded-xl flex items-center justify-center border shadow-2xs', config.iconBg]">
           <slot name="icon" />
         </div>
@@ -67,10 +65,10 @@ const sparklinePoints = computed(() => {
       <!-- Middle: Big Value + Mini Sparkline -->
       <div class="flex items-end justify-between mt-1 mb-2">
         <div>
-          <div class="text-3xl font-black text-slate-900 tracking-tight font-mono">
+          <div class="text-3xl font-black text-slate-900 dark:text-white tracking-tight font-mono">
             {{ value }}
           </div>
-          <p class="text-[11px] text-slate-500 font-medium mt-1">{{ description }}</p>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium mt-1">{{ description }}</p>
         </div>
 
         <!-- Mini Sparkline SVG -->
@@ -90,20 +88,20 @@ const sparklinePoints = computed(() => {
     </div>
 
     <!-- Bottom: Trend Badge -->
-    <div class="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+    <div class="pt-3 mt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs">
       <span
         :class="[
           'inline-flex items-center gap-1 font-bold px-2 py-0.5 rounded-lg border text-[11px]',
           isPositive
-            ? 'text-emerald-700 bg-emerald-50 border-emerald-200/70'
-            : 'text-rose-700 bg-rose-50 border-rose-200/70'
+            ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200/70 dark:border-emerald-800/70'
+            : 'text-rose-700 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 border-rose-200/70 dark:border-rose-800/70'
         ]"
       >
         <ArrowUpRight v-if="isPositive" class="w-3.5 h-3.5" />
         <ArrowDownRight v-else class="w-3.5 h-3.5" />
         {{ change }}
       </span>
-      <span class="text-[11px] text-slate-400 font-medium">vs last month</span>
+      <span class="text-[11px] text-slate-400 dark:text-slate-500 font-medium">vs last month</span>
     </div>
   </div>
 </template>
