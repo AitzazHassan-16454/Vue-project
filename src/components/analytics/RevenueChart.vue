@@ -7,13 +7,15 @@ import {
   Legend,
   LineElement,
   PointElement,
+  BarElement,
   CategoryScale,
   LinearScale,
   Filler,
   type ChartOptions,
   type ChartData,
 } from 'chart.js'
-import { Line } from 'vue-chartjs'
+import { Line, Bar } from 'vue-chartjs'
+import { TrendingUp, BarChart3, Activity } from '@lucide/vue'
 import { useDark } from '@vueuse/core'
 import { useSettingsStore } from '@/stores/settingsStore'
 import { formatCurrency, getCurrencySymbol } from '@/utils/currency'
@@ -24,6 +26,7 @@ ChartJS.register(
   Legend,
   LineElement,
   PointElement,
+  BarElement,
   CategoryScale,
   LinearScale,
   Filler
@@ -39,7 +42,16 @@ const isDark = useDark({
 })
 
 type TimeRange = '7D' | '30D' | '90D' | '12M'
+type ChartStyle = 'spline' | 'bar' | 'stepped'
+
 const activeRange = ref<TimeRange>('30D')
+const activeStyle = ref<ChartStyle>('spline')
+
+const styleOptions = [
+  { id: 'spline', label: 'Curve Area', icon: TrendingUp },
+  { id: 'bar', label: 'Grouped Bars', icon: BarChart3 },
+  { id: 'stepped', label: 'Stepped Line', icon: Activity },
+] as const
 
 const chartDatasets: Record<TimeRange, { labels: string[]; revenue: number[]; expenses: number[] }> = {
   '7D': {
@@ -79,7 +91,9 @@ const netProfit = computed(() => {
 
 const currencySymbol = computed(() => getCurrencySymbol(settingsStore.currency))
 
-const chartData = computed<ChartData<'line'>>(() => {
+// Line / Spline / Stepped Chart Data
+const lineChartData = computed<ChartData<'line'>>(() => {
+  const isStepped = activeStyle.value === 'stepped'
   return {
     labels: currentData.value.labels,
     datasets: [
@@ -96,7 +110,8 @@ const chartData = computed<ChartData<'line'>>(() => {
           return gradient
         },
         fill: true,
-        tension: 0.38,
+        tension: isStepped ? 0 : 0.38,
+        stepped: isStepped ? 'middle' : false,
         borderWidth: 2.5,
         pointBackgroundColor: isDark.value ? '#0f172a' : '#ffffff',
         pointBorderColor: '#6366f1',
@@ -109,8 +124,9 @@ const chartData = computed<ChartData<'line'>>(() => {
         data: currentData.value.expenses,
         borderColor: isDark.value ? '#64748b' : '#94a3b8',
         backgroundColor: 'transparent',
-        borderDash: [5, 5],
-        tension: 0.38,
+        borderDash: isStepped ? undefined : [5, 5],
+        tension: isStepped ? 0 : 0.38,
+        stepped: isStepped ? 'middle' : false,
         borderWidth: 2,
         pointBackgroundColor: isDark.value ? '#0f172a' : '#ffffff',
         pointBorderColor: isDark.value ? '#64748b' : '#94a3b8',
@@ -122,7 +138,30 @@ const chartData = computed<ChartData<'line'>>(() => {
   }
 })
 
-const chartOptions = computed<ChartOptions<'line'>>(() => {
+// Bar Chart Data
+const barChartData = computed<ChartData<'bar'>>(() => ({
+  labels: currentData.value.labels,
+  datasets: [
+    {
+      label: 'Gross Inflow',
+      data: currentData.value.revenue,
+      backgroundColor: '#6366f1',
+      borderRadius: 6,
+      barPercentage: 0.65,
+      categoryPercentage: 0.65,
+    },
+    {
+      label: 'Operating Expenses',
+      data: currentData.value.expenses,
+      backgroundColor: isDark.value ? '#475569' : '#cbd5e1',
+      borderRadius: 6,
+      barPercentage: 0.65,
+      categoryPercentage: 0.65,
+    },
+  ],
+}))
+
+const chartOptions = computed(() => {
   const dark = isDark.value
   const gridColor = dark ? '#1e293b' : '#f1f5f9'
   const textColor = dark ? '#94a3b8' : '#64748b'
@@ -131,7 +170,7 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
     responsive: true,
     maintainAspectRatio: false,
     interaction: {
-      mode: 'index',
+      mode: 'index' as const,
       intersect: false,
     },
     plugins: {
@@ -148,7 +187,7 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
         cornerRadius: 12,
         boxPadding: 6,
         callbacks: {
-          label: (context) => {
+          label: (context: any) => {
             let label = context.dataset.label || ''
             if (label) label += ': '
             if (context.parsed.y !== null) {
@@ -179,7 +218,7 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
         ticks: {
           color: textColor,
           font: { size: 11, family: 'Inter, system-ui', weight: 500 },
-          callback: (value) => `${currencySymbol.value}${Number(value) / 1000}k`,
+          callback: (value: any) => `${currencySymbol.value}${Number(value) / 1000}k`,
         },
       },
     },
@@ -189,8 +228,8 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
 
 <template>
   <div class="depth-card rounded-2xl p-6 md:p-8 flex flex-col justify-between">
-    <!-- Header Controls -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100 dark:border-slate-800">
+    <!-- Header Controls: Title, Chart Style Switcher, and Timeframe Toggle -->
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-100 dark:border-slate-800">
       <div>
         <div class="flex items-center gap-2 mb-1">
           <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
@@ -201,22 +240,45 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
         </p>
       </div>
 
-      <!-- Timeframe Toggle Pills -->
-      <div class="flex items-center p-1 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700 self-start sm:self-auto">
-        <button
-          v-for="range in (['7D', '30D', '90D', '12M'] as TimeRange[])"
-          :key="range"
-          type="button"
-          @click="activeRange = range"
-          :class="[
-            'px-3 py-1 text-xs font-bold rounded-lg transition-all',
-            activeRange === range
-              ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 shadow-xs'
-              : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-          ]"
-        >
-          {{ range }}
-        </button>
+      <!-- Controls Row: Style Selector + Timeframe Selector -->
+      <div class="flex items-center gap-2.5 flex-wrap self-start lg:self-auto">
+        <!-- Interactive Chart Style Switcher (User Choice) -->
+        <div class="flex items-center p-1 rounded-xl bg-slate-100/90 dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700">
+          <button
+            v-for="st in styleOptions"
+            :key="st.id"
+            type="button"
+            @click="activeStyle = st.id"
+            :class="[
+              'flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer',
+              activeStyle === st.id
+                ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 shadow-2xs'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+            ]"
+            :title="`Switch to ${st.label} style`"
+          >
+            <component :is="st.icon" class="w-3.5 h-3.5" />
+            <span class="hidden sm:inline">{{ st.label }}</span>
+          </button>
+        </div>
+
+        <!-- Timeframe Toggle Pills -->
+        <div class="flex items-center p-1 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700">
+          <button
+            v-for="range in (['7D', '30D', '90D', '12M'] as TimeRange[])"
+            :key="range"
+            type="button"
+            @click="activeRange = range"
+            :class="[
+              'px-2.5 py-1 text-xs font-bold rounded-lg transition-all cursor-pointer',
+              activeRange === range
+                ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 shadow-2xs'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+            ]"
+          >
+            {{ range }}
+          </button>
+        </div>
       </div>
     </div>
 
@@ -242,9 +304,23 @@ const chartOptions = computed<ChartOptions<'line'>>(() => {
       </div>
     </div>
 
-    <!-- Chart Canvas Container -->
+    <!-- Dynamic Chart Canvas Container (Renders user's chosen style) -->
     <div class="h-72 w-full mt-2">
-      <Line :data="chartData" :options="chartOptions" />
+      <!-- Grouped Bars Style -->
+      <Bar
+        v-if="activeStyle === 'bar'"
+        :key="`bar-${activeRange}`"
+        :data="barChartData"
+        :options="chartOptions"
+      />
+
+      <!-- Spline Area or Stepped Line Style -->
+      <Line
+        v-else
+        :key="`line-${activeStyle}-${activeRange}`"
+        :data="lineChartData"
+        :options="chartOptions"
+      />
     </div>
 
     <!-- Legend Footer -->
