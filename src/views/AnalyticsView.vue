@@ -238,7 +238,7 @@ const cohorts = [
       </div>
 
       <div class="overflow-x-auto mt-4 -mx-6 md:-mx-8">
-        <table class="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+        <table class="w-full text-left text-xs text-slate-700 dark:text-slate-300 min-w-[620px]">
           <thead class="text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold border-y border-slate-200 dark:border-slate-800 bg-slate-50/90 dark:bg-slate-850/90">
             <tr>
               <th class="py-3 px-6 md:px-8">Cohort</th>

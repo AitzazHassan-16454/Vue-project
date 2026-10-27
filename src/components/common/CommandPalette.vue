@@ -235,7 +235,7 @@ onUnmounted(() => {
   <Teleport to="body">
     <div
       v-if="isOpen"
-      class="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 pb-6 overflow-y-auto"
+      class="fixed inset-0 z-50 flex items-start justify-center pt-10 sm:pt-20 px-3 sm:px-4 pb-6 overflow-y-auto"
       role="dialog"
       aria-modal="true"
     >

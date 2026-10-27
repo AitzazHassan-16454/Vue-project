@@ -80,7 +80,7 @@ onUnmounted(() => {
 
       <!-- Modal Card with Prominent Dark Depth Shadow -->
       <div
-        class="depth-modal bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-md p-6 relative z-10 transform transition-all animate-in fade-in zoom-in-95 duration-150"
+        class="depth-modal bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-sm sm:max-w-md p-5 sm:p-6 relative z-10 transform transition-all animate-in fade-in zoom-in-95 duration-150"
       >
         <!-- Top: Icon + Close button -->
         <div class="flex items-start justify-between">

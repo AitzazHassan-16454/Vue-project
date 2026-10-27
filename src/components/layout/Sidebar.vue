@@ -9,6 +9,7 @@ import {
   Sparkles,
   Zap,
   ChevronRight,
+  X,
 } from '@lucide/vue'
 
 defineProps<{
@@ -52,6 +53,16 @@ const currentPath = computed(() => route.path)
           <span class="text-[10px] text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">Analytics Suite</span>
         </div>
       </RouterLink>
+
+      <!-- Explicit Mobile Close Button -->
+      <button
+        type="button"
+        @click="emit('closeMobile')"
+        class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 md:hidden cursor-pointer"
+        aria-label="Close sidebar"
+      >
+        <X class="w-5 h-5" />
+      </button>
     </div>
 
     <!-- Navigation Links -->
@@ -65,7 +76,7 @@ const currentPath = computed(() => route.path)
         :to="item.path"
         @click="emit('closeMobile')"
         :class="[
-          'flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 group relative',
+          'flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-sm transition-all duration-200 group relative cursor-pointer',
           currentPath === item.path
             ? 'bg-indigo-50/90 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 font-semibold shadow-2xs border border-indigo-100 dark:border-indigo-900/60'
             : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/70 dark:hover:bg-slate-800/70'
@@ -88,7 +99,7 @@ const currentPath = computed(() => route.path)
     </nav>
 
     <!-- Bottom Pro Info Card -->
-    <div class="p-4 m-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 shadow-2xs">
+    <div class="p-4 m-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 shadow-2xs shrink-0">
       <div class="flex items-center gap-2 mb-1.5">
         <Sparkles class="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
         <span class="text-xs font-bold text-slate-900 dark:text-white">AI Engine Active</span>

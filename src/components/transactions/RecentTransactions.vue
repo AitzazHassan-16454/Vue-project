@@ -195,7 +195,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="depth-card rounded-2xl p-6 md:p-8 relative">
+  <div class="depth-card rounded-2xl p-4 sm:p-6 md:p-8 relative">
     <!-- Toast notification -->
     <transition name="fade">
       <div
@@ -208,9 +208,9 @@ defineExpose({
     </transition>
 
     <!-- Header Controls -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
       <div>
-        <h3 class="text-lg font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+        <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
           <span>Global Transaction Ledger</span>
           <span class="text-xs px-2.5 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60 font-mono font-bold">
             {{ filteredTransactions.length }} Records
@@ -219,18 +219,18 @@ defineExpose({
         <p class="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">Live settled payment operations across multi-currency gateways.</p>
       </div>
 
-      <div class="flex items-center gap-2.5 flex-wrap">
+      <div class="flex items-center gap-2 flex-wrap">
         <!-- Status Filter Pills -->
-        <div class="flex items-center p-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+        <div class="flex items-center p-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 overflow-x-auto">
           <button
             v-for="st in (['All', 'Completed', 'Pending', 'Refunded'] as const)"
             :key="st"
             type="button"
             @click="selectedStatus = st"
             :class="[
-              'px-2.5 py-1 text-xs font-bold rounded-lg transition-all',
+              'px-2 sm:px-2.5 py-1 text-[11px] sm:text-xs font-bold rounded-lg transition-all cursor-pointer shrink-0',
               selectedStatus === st
-                ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 shadow-sm border border-slate-200 dark:border-slate-600'
+                ? 'bg-white dark:bg-slate-700 text-indigo-700 dark:text-indigo-300 shadow-2xs border border-slate-200 dark:border-slate-600'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             ]"
           >
@@ -242,7 +242,7 @@ defineExpose({
         <button
           type="button"
           @click="isAddModalOpen = true"
-          class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition"
+          class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition cursor-pointer shrink-0"
         >
           <Plus class="w-3.5 h-3.5" />
           <span>New Entry</span>
@@ -252,7 +252,7 @@ defineExpose({
         <button
           type="button"
           @click="exportCsv"
-          class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 transition shadow-xs"
+          class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 transition shadow-xs cursor-pointer shrink-0"
         >
           <Download class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
           <span>CSV</span>
@@ -273,18 +273,18 @@ defineExpose({
       </div>
     </div>
 
-    <!-- Table -->
-    <div class="overflow-x-auto -mx-6 md:-mx-8">
-      <table class="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+    <!-- Table Container with Horizontal Scroll & Min-Width for Small Devices -->
+    <div class="overflow-x-auto -mx-4 sm:-mx-6 md:-mx-8">
+      <table class="w-full text-left text-xs text-slate-700 dark:text-slate-300 min-w-[700px]">
         <thead class="text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold border-y border-slate-200 dark:border-slate-800 bg-slate-50/90 dark:bg-slate-850/90">
           <tr>
-            <th class="py-3 px-6 md:px-8">Identifier</th>
+            <th class="py-3 px-4 sm:px-6 md:px-8">Identifier</th>
             <th class="py-3 px-4">Client Organization</th>
             <th class="py-3 px-4">Subscription Category</th>
             <th class="py-3 px-4">Amount</th>
             <th class="py-3 px-4">Status</th>
             <th class="py-3 px-4">Timestamp</th>
-            <th class="py-3 px-6 md:px-8 text-right">Actions</th>
+            <th class="py-3 px-4 sm:px-6 md:px-8 text-right">Actions</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-slate-100 dark:divide-slate-800/80 font-sans">
@@ -294,11 +294,11 @@ defineExpose({
             class="hover:bg-indigo-50/30 dark:hover:bg-slate-800/40 transition-colors group"
           >
             <!-- ID with Copy button -->
-            <td class="py-3.5 px-6 md:px-8 font-mono font-semibold">
+            <td class="py-3.5 px-4 sm:px-6 md:px-8 font-mono font-semibold">
               <button
                 type="button"
                 @click="copyId(tx.id)"
-                class="inline-flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors"
+                class="inline-flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors cursor-pointer"
                 title="Copy ID"
               >
                 <span>{{ tx.id }}</span>
@@ -309,8 +309,8 @@ defineExpose({
 
             <!-- Client with Avatar -->
             <td class="py-3.5 px-4">
-              <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center font-bold text-xs text-slate-700 dark:text-slate-300 shadow-2xs">
+              <div class="flex items-center gap-2.5 sm:gap-3">
+                <div class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center font-bold text-xs text-slate-700 dark:text-slate-300 shadow-2xs shrink-0">
                   {{ tx.avatar }}
                 </div>
                 <div class="font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
@@ -333,7 +333,7 @@ defineExpose({
             <td class="py-3.5 px-4">
               <span
                 :class="[
-                  'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold border shadow-2xs',
+                  'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold border shadow-2xs whitespace-nowrap',
                   tx.status === 'Completed' ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/60' :
                   tx.status === 'Pending' ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800/60' :
                   'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border-rose-200 dark:border-rose-800/60'
@@ -347,17 +347,17 @@ defineExpose({
             </td>
 
             <!-- Date -->
-            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 font-mono text-[11px]">
+            <td class="py-3.5 px-4 text-slate-500 dark:text-slate-400 font-mono text-[11px] whitespace-nowrap">
               {{ tx.date }}
             </td>
 
             <!-- Actions: Edit & Delete -->
-            <td class="py-3.5 px-6 md:px-8 text-right">
+            <td class="py-3.5 px-4 sm:px-6 md:px-8 text-right whitespace-nowrap">
               <div class="flex items-center justify-end gap-1">
                 <button
                   type="button"
                   @click="openEditModal(tx)"
-                  class="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-slate-800 transition"
+                  class="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-slate-800 transition cursor-pointer"
                   title="Edit Entry"
                 >
                   <Pencil class="w-3.5 h-3.5" />
@@ -365,7 +365,7 @@ defineExpose({
                 <button
                   type="button"
                   @click="requestDelete(tx)"
-                  class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-slate-800 transition"
+                  class="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-slate-800 transition cursor-pointer"
                   title="Remove Entry"
                 >
                   <Trash2 class="w-3.5 h-3.5" />
@@ -382,7 +382,7 @@ defineExpose({
         <button
           type="button"
           @click="searchQuery = ''; selectedStatus = 'All'"
-          class="mt-2 text-xs text-indigo-600 dark:text-indigo-400 hover:underline font-bold"
+          class="mt-2 text-xs text-indigo-600 dark:text-indigo-400 hover:underline font-bold cursor-pointer"
         >
           Reset Filters
         </button>
@@ -392,15 +392,15 @@ defineExpose({
     <!-- Modal: Add New Transaction -->
     <div
       v-if="isAddModalOpen"
-      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 dark:bg-slate-950/80 backdrop-blur-xs"
+      class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/50 dark:bg-slate-950/80 backdrop-blur-xs overflow-y-auto"
     >
-      <div class="depth-modal bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-md p-6 relative">
+      <div class="depth-modal bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-md p-5 sm:p-6 relative max-h-[90vh] overflow-y-auto">
         <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
           <h4 class="text-base font-bold text-slate-900 dark:text-white">Record New Transaction</h4>
           <button
             type="button"
             @click="isAddModalOpen = false"
-            class="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+            class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
           >
             <X class="w-4 h-4" />
           </button>
@@ -427,7 +427,7 @@ defineExpose({
             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Subscription Category</label>
             <select
               v-model="newCategory"
-              class="w-full px-3 py-2 text-xs rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:bg-white dark:focus:bg-slate-750 focus:border-indigo-500 font-medium"
+              class="w-full px-3 py-2 text-xs rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:bg-white dark:focus:bg-slate-750 focus:border-indigo-500 font-medium cursor-pointer"
             >
               <option value="Enterprise Annual Tier">Enterprise Annual Tier</option>
               <option value="GPU Cluster Lease">GPU Cluster Lease</option>
@@ -470,13 +470,13 @@ defineExpose({
             <button
               type="button"
               @click="isAddModalOpen = false"
-              class="px-3.5 py-2 text-xs font-bold rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition"
+              class="px-3.5 py-2 text-xs font-bold rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              class="px-4 py-2 text-xs font-bold rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition"
+              class="px-4 py-2 text-xs font-bold rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition cursor-pointer"
             >
               Save Transaction
             </button>
@@ -488,9 +488,9 @@ defineExpose({
     <!-- Modal: Edit Existing Transaction -->
     <div
       v-if="isEditModalOpen"
-      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 dark:bg-slate-950/80 backdrop-blur-xs"
+      class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/50 dark:bg-slate-950/80 backdrop-blur-xs overflow-y-auto"
     >
-      <div class="depth-modal bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-md p-6 relative">
+      <div class="depth-modal bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-md p-5 sm:p-6 relative max-h-[90vh] overflow-y-auto">
         <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
           <div>
             <h4 class="text-base font-bold text-slate-900 dark:text-white">Edit Transaction</h4>
@@ -499,7 +499,7 @@ defineExpose({
           <button
             type="button"
             @click="isEditModalOpen = false"
-            class="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+            class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
           >
             <X class="w-4 h-4" />
           </button>
@@ -525,7 +525,7 @@ defineExpose({
             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Subscription Category</label>
             <select
               v-model="editCategory"
-              class="w-full px-3 py-2 text-xs rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:bg-white dark:focus:bg-slate-750 focus:border-indigo-500 font-medium"
+              class="w-full px-3 py-2 text-xs rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:bg-white dark:focus:bg-slate-750 focus:border-indigo-500 font-medium cursor-pointer"
             >
               <option value="Enterprise Annual Tier">Enterprise Annual Tier</option>
               <option value="GPU Cluster Lease">GPU Cluster Lease</option>
@@ -553,7 +553,7 @@ defineExpose({
             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Settlement Status</label>
             <select
               v-model="editStatus"
-              class="w-full px-3 py-2 text-xs rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:bg-white dark:focus:bg-slate-750 focus:border-indigo-500 font-medium"
+              class="w-full px-3 py-2 text-xs rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 focus:outline-none focus:bg-white dark:focus:bg-slate-750 focus:border-indigo-500 font-medium cursor-pointer"
             >
               <option value="Completed">Completed</option>
               <option value="Pending">Pending</option>
@@ -565,13 +565,13 @@ defineExpose({
             <button
               type="button"
               @click="isEditModalOpen = false"
-              class="px-3.5 py-2 text-xs font-bold rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition"
+              class="px-3.5 py-2 text-xs font-bold rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              class="px-4 py-2 text-xs font-bold rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition"
+              class="px-4 py-2 text-xs font-bold rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm transition cursor-pointer"
             >
               Apply Updates
             </button>

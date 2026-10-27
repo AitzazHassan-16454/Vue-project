@@ -193,7 +193,7 @@ function handleSave() {
           type="button"
           @click="form2FA = !form2FA"
           :class="[
-            'w-12 h-6 rounded-full transition-colors relative cursor-pointer',
+            'w-12 h-6 rounded-full transition-colors relative cursor-pointer shrink-0 ml-4',
             form2FA ? 'bg-indigo-600' : 'bg-slate-300 dark:bg-slate-700'
           ]"
         >
@@ -215,7 +215,7 @@ function handleSave() {
           type="button"
           @click="formEmailNotifs = !formEmailNotifs"
           :class="[
-            'w-12 h-6 rounded-full transition-colors relative cursor-pointer',
+            'w-12 h-6 rounded-full transition-colors relative cursor-pointer shrink-0 ml-4',
             formEmailNotifs ? 'bg-indigo-600' : 'bg-slate-300 dark:bg-slate-700'
           ]"
         >
@@ -270,7 +270,7 @@ function handleSave() {
           type="button"
           @click="formAutoScale = !formAutoScale"
           :class="[
-            'w-12 h-6 rounded-full transition-colors relative cursor-pointer',
+            'w-12 h-6 rounded-full transition-colors relative cursor-pointer shrink-0 ml-4',
             formAutoScale ? 'bg-indigo-600' : 'bg-slate-300 dark:bg-slate-700'
           ]"
         >

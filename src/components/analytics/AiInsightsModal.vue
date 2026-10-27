@@ -131,8 +131,8 @@ function runAnalysis() {
       @click="emit('close')"
     ></div>
 
-    <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
-      <div class="w-screen max-w-md bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 p-6 md:p-8 flex flex-col justify-between shadow-2xl relative z-10 text-slate-800 dark:text-slate-100 overflow-y-auto">
+    <div class="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
+      <div class="w-screen max-w-md bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 p-5 sm:p-6 md:p-8 flex flex-col justify-between shadow-2xl relative z-10 text-slate-800 dark:text-slate-100 overflow-y-auto">
         <!-- Header -->
         <div>
           <div class="flex items-center justify-between pb-6 border-b border-slate-100 dark:border-slate-800">

@@ -52,7 +52,7 @@ function togglePalette() {
       />
 
       <!-- Page View Router Outlet -->
-      <main class="flex-1 p-4 md:p-8 max-w-7xl w-full mx-auto relative z-10">
+      <main class="flex-1 p-3 sm:p-4 md:p-8 max-w-7xl w-full mx-auto relative z-10">
         <router-view v-slot="{ Component }">
           <transition name="fade" mode="out-in">
             <component :is="Component" />
