@@ -16,6 +16,9 @@ import { formatCurrency } from '@/utils/currency'
 import MetricCard from '@/components/analytics/MetricCard.vue'
 import RevenueChart from '@/components/analytics/RevenueChart.vue'
 import ExpenseDoughnut from '@/components/analytics/ExpenseDoughnut.vue'
+import MrrMovementChart from '@/components/analytics/MrrMovementChart.vue'
+import GeoDistributionChart from '@/components/analytics/GeoDistributionChart.vue'
+import ConversionFunnelChart from '@/components/analytics/ConversionFunnelChart.vue'
 import RecentTransactions from '@/components/transactions/RecentTransactions.vue'
 
 const txStore = useTransactionStore()
@@ -150,7 +153,7 @@ function deploySnapshot() {
       </MetricCard>
     </div>
 
-    <!-- Charts Row: Main Revenue Line Chart & Expense Doughnut Chart -->
+    <!-- Graphical Section 1: Line Revenue Trajectory & Doughnut Expense Allocations -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div class="lg:col-span-2">
         <RevenueChart />
@@ -158,6 +161,21 @@ function deploySnapshot() {
       <div>
         <ExpenseDoughnut />
       </div>
+    </div>
+
+    <!-- Graphical Section 2: Stacked Bar MRR Movement & Polar Area Geographic Distribution -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-2">
+        <MrrMovementChart />
+      </div>
+      <div>
+        <GeoDistributionChart />
+      </div>
+    </div>
+
+    <!-- Graphical Section 3: Stepped Payment Funnel & Conversion Throughput -->
+    <div>
+      <ConversionFunnelChart />
     </div>
 
     <!-- Full Transactions Ledger with Search, Status, and CSV Export -->
